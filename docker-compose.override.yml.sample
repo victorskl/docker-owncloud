@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  db:
+    image: mariadb:10.4
+    command: >-
+      --transaction-isolation=READ-COMMITTED
+      --binlog-format=ROW
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+
+  app:
+    image: owncloud/server:10.2
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./data/owncloud/data:/mnt/data
+
+#  redis:
+#    image: redis:5
+#    restart: always
+#    ports:
+#      - 6379:6379
+#    volumes:
+#      - ./data/redis:/data
+
+#  adminer:
+#    image: adminer:4
+#    restart: always
+#    ports:
+#      - 8181:8080

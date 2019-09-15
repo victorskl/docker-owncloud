@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  db:
+    image: mariadb
+    env_file:
+      - .env
+    restart: always
+
+  app:
+    image: owncloud/server
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "/usr/bin/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
